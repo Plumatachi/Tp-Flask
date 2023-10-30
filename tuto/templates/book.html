@@ -9,7 +9,7 @@
         <h1> {{ book.title }}</h1>
         <div class="sample">
             <img src="{{ url_for('static', filename='images/'+book.img)}}" alt="{{book.title}}" title="{{book.title}}">
-            <p>Auteur : {{ book.author.name }}</p>
+            <p>Auteur : <a href="{{ url_for('author', id=author.id)}}">{{ book.author.name }}</a></p>
             <p>Prix : {{ book.price }}€</p>
             <p>Url : <a href="{{book.url}}">{{ book.url }}</a></p>
         </div>

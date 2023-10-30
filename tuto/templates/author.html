@@ -15,7 +15,7 @@
         <div class="sample">
             {% for x in books %}
             <img src="{{ url_for('static', filename='images/'+x.img)}}" alt="{{x.title}}" title="{{x.title}}">
-            <p>{{ x.title }}</p>
+            <p><a href="{{ url_for('book', id=x.id)}}">{{ x.title }}</a></p>
             {% endfor %}
         </div>
         {% endblock %}

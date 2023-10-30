@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title>Ajout d'un livre</title>
+    </head>
+    <body>
+        {% extends 'base.html' %}
+        {% block main %}
+        <h1>Ajout d'un livre</h1>
+        <form action="{{ url_for('add_book_succeed') }}" method="POST" role="form">
+            {{ form.hidden_tag() }}
+            <label for="title">Titre : </label>
+            <input type="text" name="title">
+            <label for="price">Prix : </label>
+            <input type="number" name="price" id="price">
+            <label for="img">Image : </label>
+            <input type="text" name="img">
+            <label for="url">Lien url : </label>
+            <input type="text" name="url">
+            <input type="submit" value="Enregistrer">
+        </form>
+        {% endblock %}
+    </body>
+</html>

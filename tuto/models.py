@@ -18,7 +18,6 @@ class Author(db.Model):
     def __repr__(self):
         return "<Author (%d) %s>" % (self.id, self.name)
 
-
 class Book(db.Model):
     __tablename__ = "book"
     id = db.Column(db.Integer, primary_key=True)

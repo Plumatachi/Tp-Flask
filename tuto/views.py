@@ -1,8 +1,8 @@
 from tuto.app import app, db
-from tuto.models import get_sample, get_author, get_book, get_books_by_author, Author, User
+from tuto.models import get_sample, get_author, get_book, get_books_by_author, Author, Book, User
 from flask import render_template, url_for, redirect
 from flask_wtf import FlaskForm
-from wtforms import StringField, HiddenField, PasswordField
+from wtforms import StringField, HiddenField, PasswordField, FloatField
 from wtforms.validators import DataRequired
 import click
 import yaml
@@ -13,6 +13,13 @@ from flask import request
 class AuthorForm(FlaskForm):
     id = HiddenField('id')
     name = StringField('Nom', validators=[DataRequired()])
+
+class BookForm(FlaskForm):
+    id = HiddenField('id')
+    title = StringField('Titre', validators=[DataRequired()])
+    price = FloatField('Prix', validators=[DataRequired()])
+    img = StringField('Image')
+    url = StringField('Url')
 
 class LoginForm(FlaskForm):
     username = StringField('Username')
@@ -73,7 +80,26 @@ def add_author_succeed():
 
 @app.route("/add/book")
 def add_book():
-    pass
+    b = None
+    f = BookForm()
+    return render_template("add_book.html", book=b, form=f)
+
+@app.route("/add/book", methods=('POST',))
+def add_book_succeed():
+    b = None
+    f = BookForm()
+    if f.validate_on_submit():
+        title = f.title.data
+        existing_book = Book.query.filter_by(title=title).first()
+        if existing_book is None:
+            new_book = Book(title=title, price=f.price.data, img=f.img.data, url=f.url.data)
+            db.session.add(new_book)
+            db.session.commit()
+            b = new_book
+        else:
+            b = existing_book
+        return redirect(url_for('book', id=b.id))
+    return render_template("add_book.html", book=b, form=f)
 
 @app.route("/detail/author/<int:id>")
 def author(id):
@@ -84,7 +110,7 @@ def author(id):
 @app.route("/detail/book/<int:id>")
 def book(id):
     b = get_book(id)
-    return render_template("book.html", book=b)
+    return render_template("book.html", book=b, author=b.author)
 
 @app.route("/")
 def home():
