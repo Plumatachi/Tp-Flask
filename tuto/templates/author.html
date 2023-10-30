@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title>{{ title }}</title>
+    </head>
+    <body>
+        {% extends "base.html" %}
+        {% block main %}
+        <h1> {{ author_name }}</h1>
+        {% if current_user.is_authenticated %}
+        <form action="{{ url_for('edit_author', id=author_id)}}">
+            <input type="submit" value="Modifier">
+        </form>
+        {% endif %}
+        <div class="sample">
+            {% for x in books %}
+            <img src="{{ url_for('static', filename='images/'+x.img)}}" alt="{{x.title}}" title="{{x.title}}">
+            <p>{{ x.title }}</p>
+            {% endfor %}
+        </div>
+        {% endblock %}
+    </body>
+</html>

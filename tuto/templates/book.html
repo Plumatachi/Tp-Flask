@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title>{{ title }}</title>
+    </head>
+    <body>
+        {% extends "base.html" %}
+        {% block main %}
+        <h1> {{ book.title }}</h1>
+        <div class="sample">
+            <img src="{{ url_for('static', filename='images/'+book.img)}}" alt="{{book.title}}" title="{{book.title}}">
+            <p>Auteur : {{ book.author.name }}</p>
+            <p>Prix : {{ book.price }}€</p>
+            <p>Url : <a href="{{book.url}}">{{ book.url }}</a></p>
+        </div>
+        {% endblock %}
+    </body>
+</html>
