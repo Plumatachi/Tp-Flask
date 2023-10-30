@@ -20,6 +20,7 @@ class BookForm(FlaskForm):
     price = FloatField('Prix', validators=[DataRequired()])
     img = StringField('Image')
     url = StringField('Url')
+    author = StringField('Author')
 
 class LoginForm(FlaskForm):
     username = StringField('Username')
@@ -92,7 +93,16 @@ def add_book_succeed():
         title = f.title.data
         existing_book = Book.query.filter_by(title=title).first()
         if existing_book is None:
-            new_book = Book(title=title, price=f.price.data, img=f.img.data, url=f.url.data)
+            author_name = f.author.data
+            existing_author = Author.query.filter_by(name=author_name).first()
+            if existing_author is None:
+                new_author = Author(name=author_name)
+                db.session.add(new_author)
+                db.session.commit()
+                author = new_author
+            else:
+                author = existing_author
+            new_book = Book(title=title, price=f.price.data, img=f.img.data, url=f.url.data, author=author)
             db.session.add(new_book)
             db.session.commit()
             b = new_book
