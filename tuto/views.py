@@ -57,6 +57,7 @@ def save_author():
     return render_template("edit_author.html", author=a, form=f)
 
 @app.route("/add/author/")
+@login_required
 def add_author():
     a = None
     f = AuthorForm()
@@ -80,6 +81,7 @@ def add_author_succeed():
     return render_template("add_author.html", author=a, form=f)
 
 @app.route("/add/book")
+@login_required
 def add_book():
     b = None
     f = BookForm()
